@@ -29,6 +29,11 @@ svg.append('text')
   .attr("x", width / 2)
   .attr("y", padding / 1)
 
+// Tooltip  
+const tooltip = d3.select('#chart').append('div')
+  .attr('id', 'tooltip')
+  .style('opacity', 0)
+
 // Get the data
 const eduURL = 'https://raw.githubusercontent.com/no-stack-dub-sack/testable-projects-fcc/master/src/data/choropleth_map/for_user_education.json'
 const countiesURL = 'https://raw.githubusercontent.com/no-stack-dub-sack/testable-projects-fcc/master/src/data/choropleth_map/counties.json'
