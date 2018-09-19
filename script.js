@@ -15,6 +15,13 @@ const svg = d3.select('#chart')
   .attr('width', width + margin.left + margin.right)
   .attr('height', height + margin.top + margin.bottom)
 
+// Title
+svg.append('text')
+  .text('United States Higher Education Analysis')
+  .attr('id', 'title')
+  .attr("x", width / 2)
+  .attr("y", padding / 2) 
+
 // Get the data
 const eduURL = 'https://raw.githubusercontent.com/no-stack-dub-sack/testable-projects-fcc/master/src/data/choropleth_map/for_user_education.json'
 const countiesURL = 'https://raw.githubusercontent.com/no-stack-dub-sack/testable-projects-fcc/master/src/data/choropleth_map/counties.json'
