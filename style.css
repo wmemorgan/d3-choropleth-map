@@ -1,0 +1,66 @@
+/* Typography */
+/* Montserrat & Lato */
+@import url('https://fonts.googleapis.com/css?family=Lato|Montserrat:400,500,600,700');
+
+/* Color palette */
+:root {
+--axis-color: #000;
+--bar-standard-color: #265077;
+--bar-selected-color: #51a7f8;
+--tooltip-background-color: #93bcf1;
+--default-background-color: #022140;
+--overlay-bg-color:  #FCFCFC;
+--container-bg-color: #C5CAE9;
+--tooltip-span-color: #d11515;
+}
+
+body {
+  font-family: Lato, sans-serif;
+  background: var(--default-background-color);
+}
+
+#title {
+  font-family: Montserrat, sans-serif;
+  font-size: 1.25rem;
+  font-weight: bold;
+  text-anchor: middle;
+}
+
+#description {
+  font-family: Montserrat, sans-serif;
+  font-size: 1rem;
+  font-weight: bold;
+  text-anchor: middle;
+}
+
+#chart {
+  width: 100%;
+  margin: 0 auto;
+  border: 1px solid black;
+  text-align: center;
+  background: var(--overlay-bg-color);
+}
+
+.graph{
+  margin: 0 auto;
+  padding: 1rem;
+  padding-left: 2rem;
+}
+
+
+#tooltip {
+  position: absolute;
+  text-align: left;
+  max-width: 200px;
+  padding: 0.1rem 0.5rem;
+  font-size: 0.7rem;
+  background: var(--tooltip-background-color);
+  pointer-events: none;
+  border-radius: 25px;
+}
+
+span {
+  font-weight: bold;
+  color: var(--tooltip-span-color);
+}
+
