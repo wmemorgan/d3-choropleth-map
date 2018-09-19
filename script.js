@@ -15,3 +15,16 @@ const svg = d3.select('#chart')
   .attr('width', width + margin.left + margin.right)
   .attr('height', height + margin.top + margin.bottom)
 
+// Get the data
+const eduURL = 'https://raw.githubusercontent.com/no-stack-dub-sack/testable-projects-fcc/master/src/data/choropleth_map/for_user_education.json'
+const countiesURL = 'https://raw.githubusercontent.com/no-stack-dub-sack/testable-projects-fcc/master/src/data/choropleth_map/counties.json'
+const chart = async () => {
+  let getEduData = await fetch(eduURL)
+  let rawEduData = await getEduData.json()
+  console.log(`rawEduData`, rawEduData)
+  let getUSData = await fetch(countiesURL)
+  let rawUSData = await getUSData.json()
+  console.log(`rawUSData`, rawUSData)
+}
+
+chart()
