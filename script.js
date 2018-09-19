@@ -17,10 +17,17 @@ const svg = d3.select('#chart')
 
 // Title
 svg.append('text')
-  .text('United States Higher Education Analysis')
+  .text('Education Attainment in the United States')
   .attr('id', 'title')
   .attr("x", width / 2)
   .attr("y", padding / 2) 
+
+// Description
+svg.append('text')
+  .text(`Percentage of adults age 25 or older with a bachelor's degree or higher`)
+  .attr('id', 'description')
+  .attr("x", width / 2)
+  .attr("y", padding / 1)
 
 // Get the data
 const eduURL = 'https://raw.githubusercontent.com/no-stack-dub-sack/testable-projects-fcc/master/src/data/choropleth_map/for_user_education.json'
