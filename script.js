@@ -59,20 +59,15 @@ const chart = async () => {
   const maxRate = d3.max(eduData.map(d => d.bachelorsOrHigher))
 
   // Map education data to county data
- 
-  console.log(`counties[0].id`, counties[0].id)
-  console.log(`eduData[0].fips`, eduData[0].fips)
-  // var dataset =
-  // let dataset = counties.filter(o1 => eduData.some(o2 => o1.id === o2.fips));
-  var dataset = counties.filter(function (county) {
-    return eduData.some(function (eduCounty) {
-     if(county.id === eduCounty.fips) {
+  const dataset = counties.filter( (county) => {
+    return eduData.some((eduCounty) => {
+     if (county.id === eduCounty.fips) {
        return county['bachelorsOrHigher'] = eduCounty.bachelorsOrHigher
      } else {
        return county['bachelorsOrHigher'] = 0
      }
-    });
-  });
+    })
+  })
   console.log(`dataset`, dataset)
 
 
