@@ -8,6 +8,8 @@ const padding = 60
 const width = 960
 const height = 600
 
+
+
 // Create svg and append to chart div
 const svg = d3.select('#chart')
   .append('svg')
@@ -17,14 +19,14 @@ const svg = d3.select('#chart')
 
 // Title
 svg.append('text')
-  .text('Education Attainment in the United States')
+  .text('Higher Education in the United States')
   .attr('id', 'title')
   .attr("x", width / 2)
   .attr("y", padding / 2) 
 
 // Description
 svg.append('text')
-  .text(`Percentage of adults age 25 or older with a bachelor's degree or higher`)
+  .text(`Percentage of people with a bachelor's degree or higher`)
   .attr('id', 'description')
   .attr("x", width / 2)
   .attr("y", padding / 1)
@@ -34,75 +36,53 @@ const tooltip = d3.select('#chart').append('div')
   .attr('id', 'tooltip')
   .style('opacity', 0)
 
-// Map 
-const path = d3.geoPath()
 
-//Scale
-const xScale = d3.scaleLinear()
-  .domain([1, 10])
-  .rangeRound([(height), (width)])
-
-const color = d3.scaleThreshold()
-  .domain(d3.range(2, 10))
-  .range(d3.schemeBlues[9])
-
-// Map Key
-const mapKey = svg.append('g')
-  .attr('class', 'key')
-  .attr('transform', `translate(0, ${padding})`)
-
-mapKey.selectAll('rect')
-  .data(color.range().map((d) => {
-    d = color.invertExtent(d)
-    if (d[0] == null) {d[0] = xScale.domain()[0]}
-    if (d[1] == null) {d[1] = xScale.domain()[1]}
-    return d
-  }))
-  .enter().append('text')
-  .attr('height', 8)
-  .attr('x', (d) => xScale(d[0]))
-  .attr('width', (d) => xScale(d[1]) - xScale(d[0]))
-  .attr('fill', (d) => color(d[0]))
-
-mapKey.append('text')
-  .attr('class', 'caption')
-  .attr('x', xScale.range()[0])
-  .attr('y', -6)
-  .text('Education Rates')
-
-mapKey.call(d3.axisBottom(xScale)
-      .tickFormat((x, i) => i ? x : `${x}%`)
-      .tickValues(color.domain()))
-    .select('.domain')
-      .remove()
 
 // Get the data
 const eduURL = 'https://raw.githubusercontent.com/no-stack-dub-sack/testable-projects-fcc/master/src/data/choropleth_map/for_user_education.json'
 const countiesURL = 'https://raw.githubusercontent.com/no-stack-dub-sack/testable-projects-fcc/master/src/data/choropleth_map/counties.json'
 const chart = async () => {
   let getEduData = await fetch(eduURL)
-  let rawEduData = await getEduData.json()
-  console.log(`rawEduData`, rawEduData)
+  let eduData = await getEduData.json()
+  console.log(`eduData`, eduData)
   let getUSData = await fetch(countiesURL)
-  let rawUSData = await getUSData.json()
-  console.log(`rawUSData`, rawUSData)
-  // var USDataId = topojson.feature(rawUSData, rawUSData.objects.counties).features.map(d => d.id)
-  // console.log(`USDataId`, USDataId)
+  let USData = await getUSData.json()
+  console.log(`USData`, USData)
 
-  //Create map
-  svg.append('g')
-    .attr('class', 'county')
-    .selectAll('path')
-    .data(topojson.feature(rawUSData, rawUSData.objects.counties).features)
-    .enter().append('path')
-    .attr('fill', (d) => color(d.id = rawEduData.map(d => d.fips)))
-    .attr('d', path)
-    .append('title')
-      .text((d) => `${d.id}%`)
-  svg.append('path')
-    .datum(topojson.mesh(rawUSData, rawUSData.objects.states, (a, b) => a !== b))
-    .attr('class', 'states')
-    .attr('d', path)
+  // Higher education rate variance
+  const minRate = d3.min(eduData.map(d => d.bachelorsOrHigher))
+  const maxRate = d3.max(eduData.map(d => d.bachelorsOrHigher))
+
+  // Scale
+  xScale = d3.scaleLinear()
+    .domain([minRate, maxRate])
+    .range([height, width])
+
+  // Set color palette using d3-scale-chromatic library
+  //inspired by https://bl.ocks.org/mbostock/4060606
+  const color = d3.scaleThreshold()
+    .domain([minRate, maxRate])
+    .range(d3.schemeBlues[9]);
+
+  // Legend (using d3 SVG Legend (v4) library)
+  const linear = d3.scaleLinear()
+    .domain([minRate/100, maxRate/100]) //scale for percentage label format
+    .range([color.range()[1], color.range()[color.range().length - 1]]);
+
+  const legendLinear = d3.legendColor()
+    .shapeWidth(padding)
+    .orient('horizontal')
+    .cells(8)
+    .labelFormat(d3.format(".1%"))
+    .scale(linear)
+
+  svg.append("g")
+    .attr("class", "legendLinear")
+    .attr('id', 'legend')
+    .attr('transform', `translate(${width / 2}, ${height + margin.top})`)
+
+  svg.select(".legendLinear")
+    .call(legendLinear);
+
 }
-
 chart()
