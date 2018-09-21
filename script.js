@@ -78,9 +78,10 @@ const chart = async () => {
 
   // Set color palette using d3-scale-chromatic library
   //inspired by https://bl.ocks.org/mbostock/4060606
+  const palette = d3.schemeBlues[9]
   const color = d3.scaleThreshold()
-    .domain([minRate, maxRate])
-    .range(d3.schemeBlues[9]);
+    .domain(d3.range(minRate, maxRate, (maxRate-minRate)/(palette.length-1)))
+    .range(palette)
 
   // Legend (using d3 SVG Legend (v4) library)
   const linear = d3.scaleLinear()
@@ -112,15 +113,20 @@ const chart = async () => {
     .style('fill', (d) => color(d.bachelorsOrHigher))
     .attr('d', path)
 
-  // svg.append('path')
-  //   .datum(topojson.mesh(USData, USData.objects.states, (a,b) => a !== b))
-  //   .attr('class', 'state')
-  //   .attr('d', path)
+  svg.append('path')
+    .datum(topojson.mesh(USData, USData.objects.states, (a,b) => a !== b))
+    .attr('class', 'state')
+    .attr('d', path)
 
-  svg.append("path")
-    .attr("class", "county-borders")
-    .attr("d", path(topojson.mesh(USData, USData.objects.counties, (a, b) => a !== b)))
-    
+  // svg.append("path")
+  //   .attr("class", "county-borders")
+  //   .attr("d", path(topojson.mesh(USData, USData.objects.counties, (a, b) => a !== b)))
+  
+  console.log(`color(34)`, color(34))
+  console.log(`color(16)`, color(16))
+  console.log(`d3.schemeBlues[9]`, d3.schemeBlues[9].length)
+  var myformula = (maxRate - minRate) / (palette.length - 1)
+  console.log(`my formula`, myformula)
 
 }
 chart()
