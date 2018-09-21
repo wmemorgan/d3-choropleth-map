@@ -105,6 +105,15 @@ const chart = async () => {
     .attr('data-education', (d) => d.bachelorsOrHigher)
     .style('fill', (d) => color(d.bachelorsOrHigher))
     .attr('d', path)
+    .on('mouseover', (d) => {
+      tooltip.transition().duration(200).style('opacity', 0.9)
+      tooltip.html(
+        `<p>${d.area_name}, ${d.state}: ${d.bachelorsOrHigher}%</p>`)
+        .attr('data-education', d.bachelorsOrHigher)
+        .style('left', `${d3.event.layerX}px`)
+        .style('top', `${d3.event.layerY - 28}px`)
+    })
+    .on('mouseout', () => tooltip.transition().duration(500).style('opacity', 0)) 
 
   //Map borders
   //adopted from by https://bl.ocks.org/mbostock/4060606
