@@ -64,3 +64,8 @@ span {
   color: var(--tooltip-span-color);
 }
 
+/* adopted from by https://bl.ocks.org/mbostock/4060606 */
+.states {
+  fill: none;
+  stroke: var(--overlay-bg-color);
+} 

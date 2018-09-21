@@ -113,20 +113,12 @@ const chart = async () => {
     .style('fill', (d) => color(d.bachelorsOrHigher))
     .attr('d', path)
 
+  //Map borders
+  //adopted from by https://bl.ocks.org/mbostock/4060606
   svg.append('path')
-    .datum(topojson.mesh(USData, USData.objects.states, (a,b) => a !== b))
-    .attr('class', 'state')
+    .datum(topojson.mesh(USData, USData.objects.states, (a, b) => a !== b))
+    .attr('class', 'states')
     .attr('d', path)
-
-  // svg.append("path")
-  //   .attr("class", "county-borders")
-  //   .attr("d", path(topojson.mesh(USData, USData.objects.counties, (a, b) => a !== b)))
-  
-  console.log(`color(34)`, color(34))
-  console.log(`color(16)`, color(16))
-  console.log(`d3.schemeBlues[9]`, d3.schemeBlues[9].length)
-  var myformula = (maxRate - minRate) / (palette.length - 1)
-  console.log(`my formula`, myformula)
 
 }
 chart()
