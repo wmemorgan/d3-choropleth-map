@@ -59,22 +59,15 @@ const chart = async () => {
   const maxRate = d3.max(eduData.map(d => d.bachelorsOrHigher))
 
   // Map education data to county data
-  const dataset = counties.filter( (county) => {
-    return eduData.some((eduCounty) => {
-     if (county.id === eduCounty.fips) {
-       return county['bachelorsOrHigher'] = eduCounty.bachelorsOrHigher
-     } else {
-       return county['bachelorsOrHigher'] = 0
-     }
+  const dataset = counties.filter(county => {
+    return eduData.some(eduCounty => {
+      if (county.id == eduCounty.fips) {
+        let mergedData = Object.assign(county, eduCounty)
+        return mergedData
+      }
     })
   })
   console.log(`dataset`, dataset)
-
-
-  // Scale
-  xScale = d3.scaleLinear()
-    .domain([minRate, maxRate])
-    .range([height, width])
 
   // Set color palette using d3-scale-chromatic library
   //inspired by https://bl.ocks.org/mbostock/4060606
