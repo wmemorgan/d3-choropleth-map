@@ -21,15 +21,18 @@ const svg = d3.select('#chart')
 svg.append('text')
   .text('Higher Education in the United States')
   .attr('id', 'title')
-  .attr("x", width / 2)
-  .attr("y", padding / 2) 
+  .attr(`transform`, `translate(${width / 2}, ${padding / 2})`)
+  // .attr('transform', `translate(${width / 2}, ${height + margin.top})`)
+  // .attr("x", width / 2)
+  // .attr("y", padding / 2) 
 
 // Description
 svg.append('text')
   .text(`Percentage of people with a bachelor's degree or higher`)
   .attr('id', 'description')
-  .attr("x", width / 2)
-  .attr("y", padding / 1)
+  .attr(`transform`, `translate(${width / 2}, ${padding / 1})`)
+//   .attr("x", width / 2)
+//   .attr("y", padding / 1)
 
 // Tooltip  
 const tooltip = d3.select('#chart').append('div')
@@ -91,7 +94,7 @@ const chart = async () => {
   svg.append("g")
     .attr("class", "legendLinear")
     .attr('id', 'legend')
-    .attr('transform', `translate(${width / 2}, ${height + margin.top})`)
+    .attr('transform', `translate(${width / 2}, ${height + margin.top+20})`)
 
   svg.select(".legendLinear")
     .call(legendLinear);
@@ -105,6 +108,7 @@ const chart = async () => {
     .attr('data-education', (d) => d.bachelorsOrHigher)
     .style('fill', (d) => color(d.bachelorsOrHigher))
     .attr('d', path)
+    .attr('dy', 40)
     .on('mouseover', (d) => {
       tooltip.transition().duration(200).style('opacity', 0.9)
       tooltip.html(
@@ -114,6 +118,7 @@ const chart = async () => {
         .style('top', `${d3.event.layerY - 28}px`)
     })
     .on('mouseout', () => tooltip.transition().duration(500).style('opacity', 0)) 
+    .attr(`transform`, `translate(0, ${padding / 1})`)
 
   //Map borders
   //adopted from by https://bl.ocks.org/mbostock/4060606
