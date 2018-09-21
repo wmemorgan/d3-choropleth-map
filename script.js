@@ -8,8 +8,6 @@ const padding = 60
 const width = 960
 const height = 600
 
-
-
 // Create svg and append to chart div
 const svg = d3.select('#chart')
   .append('svg')
@@ -22,17 +20,12 @@ svg.append('text')
   .text('Higher Education in the United States')
   .attr('id', 'title')
   .attr(`transform`, `translate(${width / 2}, ${padding / 2})`)
-  // .attr('transform', `translate(${width / 2}, ${height + margin.top})`)
-  // .attr("x", width / 2)
-  // .attr("y", padding / 2) 
 
 // Description
 svg.append('text')
   .text(`Percentage of people with a bachelor's degree or higher`)
   .attr('id', 'description')
   .attr(`transform`, `translate(${width / 2}, ${padding / 1})`)
-//   .attr("x", width / 2)
-//   .attr("y", padding / 1)
 
 // Tooltip  
 const tooltip = d3.select('#chart').append('div')
@@ -42,20 +35,15 @@ const tooltip = d3.select('#chart').append('div')
  // Geo path generator
  const path = d3.geoPath() 
 
-
 // Get the data
 const eduURL = 'https://raw.githubusercontent.com/no-stack-dub-sack/testable-projects-fcc/master/src/data/choropleth_map/for_user_education.json'
 const countiesURL = 'https://raw.githubusercontent.com/no-stack-dub-sack/testable-projects-fcc/master/src/data/choropleth_map/counties.json'
 const chart = async () => {
   let getEduData = await fetch(eduURL)
   let eduData = await getEduData.json()
-  console.log(`eduData`, eduData)
   let getUSData = await fetch(countiesURL)
   let USData = await getUSData.json()
-  console.log(`USData`, USData)
   let counties = topojson.feature(USData, USData.objects.counties).features
-  let states = topojson.feature(USData, USData.objects.states).features
-  console.log(`counties: `, counties)
 
   // Higher education rate variance
   const minRate = d3.min(eduData.map(d => d.bachelorsOrHigher))
