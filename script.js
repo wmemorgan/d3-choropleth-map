@@ -103,7 +103,7 @@ const chart = async () => {
     .call(legendLinear);
   
   // Map
-  svg.append('g')
+  svg.append('g').selectAll('path')
     .data(dataset)
     .enter().append('path')
     .attr('class', 'county')
@@ -111,6 +111,15 @@ const chart = async () => {
     .attr('data-education', (d) => d.bachelorsOrHigher)
     .style('fill', (d) => color(d.bachelorsOrHigher))
     .attr('d', path)
+
+  // svg.append('path')
+  //   .datum(topojson.mesh(USData, USData.objects.states, (a,b) => a !== b))
+  //   .attr('class', 'state')
+  //   .attr('d', path)
+
+  svg.append("path")
+    .attr("class", "county-borders")
+    .attr("d", path(topojson.mesh(USData, USData.objects.counties, (a, b) => a !== b)))
     
 
 }
