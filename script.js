@@ -82,7 +82,7 @@ const chart = async () => {
   svg.append("g")
     .attr("class", "legendLinear")
     .attr('id', 'legend')
-    .attr('transform', `translate(${width / 2}, ${height + margin.top+20})`)
+    .attr('transform', `translate(${width / 2}, ${height + margin.top+17})`)
 
   svg.select(".legendLinear")
     .call(legendLinear);
